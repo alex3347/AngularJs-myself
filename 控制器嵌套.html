@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Simple app</title>
+		<script src="js/angular.min.js"></script>
+		<script type="text/javascript">
+			var myApp=angular.module('myApp',[]);
+			myApp.controller('ParentController',function($scope){
+				$scope.person={
+					greeted:false
+				};
+			});
+			myApp.controller('ChildController',function($scope){
+				$scope.sayHello=function(){
+					$scope.person.name='Ari Lerner';
+				};
+			});
+		</script>
+	</head>
+	<body>
+		<div ng-app="myApp">
+			<div ng-controller="ParentController">
+				<div ng-controller="ChildController">
+					<a ng-click="sayHello()">Say hello</a>
+				</div>
+				{{person}}
+			</div>
+		</div>
+	</body>
+</html>
