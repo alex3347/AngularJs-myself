@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Simple app</title>
+		<script src="js/angular.min.js"></script>
+		<script type="text/javascript">
+			angular.module('myApp', [])
+			.controller('FormController', function($scope) {
+			  $scope.fields = [
+			    {placeholder: 'Username', isRequired: true},
+			    {placeholder: 'Password', isRequired: true},
+			    {placeholder: 'Email (optional)', isRequired: false}
+			  ];
+			
+			  $scope.submitForm = function() {
+			    alert("it works!");
+			  };
+			});
+		</script>
+		<style type="text/css">
+			input.ng-invalid {
+			  border: 1px solid red;
+			}
+			input.ng-valid {
+			  border: 1px solid green;
+			}
+		</style>
+	</head>
+	<body>
+		<form name="signup-form" ng-controller="FormController" ng-submit="submitForm()" novalidate>
+			<div ng-repeat="field in fields" ng-form="signup_form_input">
+				<input type="text" 
+						name="dynamic_input"
+						ng-required="field.name"
+						placeholder="{{field.placeholder}}"/>
+				<div ng-show="signup_form_input/dynamic_input.$dirty && signup_form_input.dynamic_input.$invalid">
+					<span class="error" ng-show="signup_form_input.dynamic_input.$error.required">
+						The field is required
+					</span>
+				</div>
+			</div>
+			<button type="submit" ng-disabled="signup_form.$invalid">Submit All</button>
+		</form>
+	</body>
+</html>
