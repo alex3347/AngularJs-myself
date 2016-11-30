@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>ng-submit</title>
-		<script src="js/angular.min.js"></script>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/foundation/4.3.2/css/foundation.min.css">
 		<script type="text/javascript">
 			angular.module('myApp', [])
 			.controller('FormController', function($scope) {
@@ -21,7 +22,7 @@
 		</script>
 	</head>
 	<body>
-		<form ng-submit="submit()" ng-contronller="FormController">
+		<form ng-submit="submit()" ng-controller="FormController">
 			输入文本并点击提交按钮
 			<input type="text" name="person.name" ng-model="person.name" />
 			<input type="submit" name="person.name" value="Submit" />
