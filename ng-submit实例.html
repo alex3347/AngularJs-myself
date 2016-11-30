@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<title>ng-submit</title>
+		<script src="js/angular.min.js"></script>
+		<script type="text/javascript">
+			angular.module('myApp', [])
+			.controller('FormController', function($scope) {
+				$scope.person={
+					name:null
+				};
+				$scope.people=[];
+				$scope.submit=function(){
+					if($scope.person.name){
+						$scope.people.push({name:$scope.person.name});
+						$scope.person.name='';
+					}
+				};
+			});
+		</script>
+	</head>
+	<body>
+		<form ng-submit="submit()" ng-contronller="FormController">
+			输入文本并点击提交按钮
+			<input type="text" name="person.name" ng-model="person.name" />
+			<input type="submit" name="person.name" value="Submit" />
+			<code>people={{people}}</code>
+			<ul ng-repeat="(index,object) in people"> 
+				<li>{{object.name}}</li>
+			</ul>
+		</form>
+	</body>
+</html>
