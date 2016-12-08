@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+	<head>
+		<meta charset="UTF-8">
+		<title>ng-submit</title>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-route.min.js"></script>
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/foundation/4.3.2/css/foundation.min.css">
+		<script type="text/javascript">
+			angular.module('myApp',[])
+			.factory('UserService',function($http){
+				var current_user;
+				return{
+					getCurrentUser: function(){
+						return current_user;
+					},
+					setCurrentUser: function(user){
+						current_user=user;
+					}
+				};
+			});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
