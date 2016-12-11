@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html ng-app="myServiceApp">
+	<head>
+		<meta charset="UTF-8">
+		<title>HTTPbasic</title>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular-route.min.js"></script>
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/foundation/4.3.2/css/foundation.min.css">
+		<script type="text/javascript">
+			var myServiceApp=angular.module('myServiceApp',[]);
+			myServiceApp.factory('userListService',['$http',function($http){
+				var doRuquest=function(username,path){
+					return $http({
+						method:'GET',
+						url:'instanceService.json'
+					});
+				}
+				return{
+					userList:function(username){
+						return doRuquest(username,'userList');
+					}
+				};
+			}]);
+			myServiceApp.controller('ServiceController',['$scope','$timeout','userListService',
+				function($scope,$timeout,userListService){
+					var timeout;
+					//如果有变化，运行该函数，权威指南137页
+					$scope.$watch('username',function(newUserName){
+						if(newUserName){
+							if(timeout){//如果进度中有超时
+								$timeout.cancel(timeout);
+							}
+							timeout=$timeout(function(){
+								userListService.userList(newUserName)
+									.success(function(data,status){
+										$scope.users=data;
+									});
+							},350);
+						}
+					});
+				}
+			]);
+		</script>
+	</head>
+	<body>
+		<div ng-controller="ServiceController">
+			<label>用户名</label>
+			<input type="text" ng-model="username" placeholder="请输入用户名"/>
+			<pre ng-show="username">{{users}}</pre>
+		</div>
+	</body>
+</html>
