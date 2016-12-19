@@ -4,6 +4,14 @@
 		<meta charset="UTF-8">
 		<title>Simple app</title>
 		<script src="js/angular.min.js"></script>
+		<script type="text/javascript">
+			var helloModule=angular.module('HelloAngular', []);
+			helloModule.controller('helloNgCtrl',['$scope',function($scope){
+				$scope.greeting={
+					text: 'Hello'
+				};
+			}])
+		</script>
 	</head>
 	<body>
 		<input type="text" ng-model="name" placeholder="Your name"/>
