@@ -1,12 +1,36 @@
 <!DOCTYPE HTML>
-<html ng-app="myServiceApp">
+<html ng-app="UserInfoModule">
 	<head>
 		<meta charset="UTF-8">
 		<title>双向数据绑定</title>
 		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
 		<script type="text/javascript">
-			
+			var userInfoModule=angular.module('UserInfoModule',[]);
+			userInfoModule.controller('UserInfoCtrl',['$scope',function($scope){
+				$scope.userInfo={
+					email:"10000@qq.com",
+					password:"10000",
+					autoLogin:true
+				};
+				$scope.getFormData=function(){
+					console.log($scope.userInfo);
+				};
+				$scope.setFormData=function(){
+					$scope.userInfo={
+						email:"88888@qq.com",
+						password:"888",
+						autoLogin:false
+					};
+				};
+				$scope.resetForm=function(){
+					$scope.userInfo={
+						email:"54321@qq.com",
+						password:"12345",
+						autoLogin:true
+					};
+				};
+			}])
 		</script>
 	</head>
 	<body>
@@ -17,13 +41,13 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-12">
-						<form class="form-horizontal" role="form">
+						<form class="form-horizontal" role="form" ng-controller="UserInfoCtrl">
 							<div class="form-group">
 								<label class="col-md-2 control-label">
 									邮箱：
 								</label>
 								<div class="col-md-10">
-									<input type="email" class="form-control" placeholder="推进使用163邮箱"/>
+									<input type="email" class="form-control" placeholder="推进使用163邮箱" ng-model="userInfo.email"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -31,16 +55,26 @@
 									密码：
 								</label>
 								<div class="col-md-10">
-									<input type="password" class="form-control" placeholder="只能是数字、字母、下划线" />
+									<input type="password" class="form-control" placeholder="只能是数字、字母、下划线" ng-model="userInfo.password"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-offset-2 col-md-10"><!--偏移2个位置-->
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" ng-model="userInfo.autoLogin"/>自动登录
+										</label>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-md-offset-2 col-md-10">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" />自动登录
-										</label>
-									</div>
+									<button class="btn btn-default" ng-click="getFormData()">
+										获取模型信息</button>
+									<button class="btn btn-default" ng-click="setFormData()">
+										设置模型信息</button>
+									<button class="btn btn-default" ng-click="resetForm()">
+										重置模型信息</button>
 								</div>
 							</div>
 						</form>
