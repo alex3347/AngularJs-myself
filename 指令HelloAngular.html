@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html ng-app="MyModule">
+	<head>
+		<meta charset="UTF-8">
+		<title>指令Hello Angular</title>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+		<script type="text/javascript">
+			var myModule=angular.module("MyModule",[]);
+			myModule.directive("hello",function(){
+				return{
+					restrict: 'AEMC',
+					template: '<div>Hi everyone!</div>',
+					replace: true
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<hello></hello>
+		<div hello></div>
+		<div class="hello"></div>
+		<!-- directive:hello -->
+	</body>
+</html>
