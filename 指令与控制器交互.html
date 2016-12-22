@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html ng-app="MyModule">
+	<head>
+		<meta charset="UTF-8">
+		<title>指令与控制器交互</title>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+		<script type="text/javascript">
+			var myModule=angular.module("MyModule",[]);
+			myModule.controller('MyCtrl',['$scope',function($scope){
+				$scope.loadData=function(){
+					console.log("控制器1加载数据中。。。");
+				}
+			}]);
+			myModule.controller('MyCtrl2',['$scope',function($scope){
+				$scope.loadData2=function(){
+					console.log("控制器2加载数据中。。。");
+				}
+			}]);
+			myModule.directive("loader",function(){
+				return{
+					restrict: 'AE',
+					link:function(scope,element,attrs){
+						element.bind('mouseenter',function(event){
+							scope.$apply(attrs.howtoload);
+							//在JS中，howToLoad会被转换成小写的howtoload
+						});
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div ng-controller="MyCtrl">
+			<loader howToLoad="loadData()">鼠标移动到这里时看console</loader>
+		</div>
+		<div ng-controller="MyCtrl2">
+			<loader howToLoad="loadData2()">鼠标移动到这里时看console</loader>
+		</div>
+	</body>
+</html>
