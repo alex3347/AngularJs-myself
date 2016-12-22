@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html ng-app="MyModule">
+	<head>
+		<meta charset="UTF-8">
+		<title>指令间的交互</title>
+		<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+		<script type="text/javascript">
+			var myModule=angular.module("MyModule",[]);
+			myModule.directive("superman",function(){
+				return{
+					scope:{},
+					restrict: 'AE',
+					controller: function($scope){
+						$scope.abilities=[];
+						this.addPower=function(){
+							$scope.abilities.push("power");
+						};
+						this.addSpeed=function(){
+							$scope.abilities.push("speed");
+						};
+						this.addLight=function(){
+							$scope.abilities.push("light");
+						};
+					},
+					link:function(scope,element,attrs){
+						element.addClass('btn btn-primary');
+						element.bind('mouseenter',function(event){
+							console.log(scope.abilities);
+						});
+					}
+				}
+			});
+			myModule.directive("power",function(){
+				return{
+					require:'^superman',
+					link:function(scope,element,attrs,supermanCtrl){
+						supermanCtrl.addPower();
+					}
+				}
+			});
+			myModule.directive("speed",function(){
+				return{
+					require:'^superman',
+					link:function(scope,element,attrs,supermanCtrl){
+						supermanCtrl.addSpeed();
+					}
+				}
+			});
+			myModule.directive("light",function(){
+				return{
+					require:'^superman',
+					link:function(scope,element,attrs,supermanCtrl){
+						supermanCtrl.addLight();
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-md-3">
+				<superman power>superman-power</superman>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<superman power speed>superman-power+speed</superman>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<superman power speed light>superman-power+speed+light</superman>
+			</div>
+		</div>
+	</body>
+</html>
