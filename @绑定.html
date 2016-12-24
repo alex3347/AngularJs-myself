@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html ng-app="MyModule">
+	<head>
+		<meta charset="UTF-8">
+		<title>@绑定</title>
+		<link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<script src="http://cdn.bootcss.com/angular.js/1.5.8/angular.min.js"></script>
+		<script type="text/javascript">
+			var myModule=angular.module("MyModule",[]);
+			myModule.controller('MyCtrl',['$scope',function($scope){
+				$scope.ctrlFlavor="百威";
+			}]);
+			myModule.directive("drink",function(){
+				return{
+					restrict: 'AE',
+					scope:{
+						flavor:'@'
+					},
+					template:"<div>{{flavor}}</div>"
+//					此处@的作用等效于
+//					link:function(scope,element,attrs){
+//						scope.flavor=attrs.flavor;
+//					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div ng-controller="MyCtrl">
+			<drink flavor="{{ctrlFlavor}}"></drink>
+		</div>
+	</body>
+</html>
