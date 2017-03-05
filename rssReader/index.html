@@ -1,0 +1,42 @@
+<!Doctype html>
+<html ng-app='36krDemoApp'>
+
+	<head>
+		<title>36krDemoApp</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="stylesheet" type="text/css" href="app.css" />
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+
+	<body>
+		<div ng-controller="ajaxXml" infinite-scroll="" infinite-scroll-distance="1">
+			<div ng-init="LoadXml()">
+				<div ng-repeat="item in feeds | limitTo:showNum" class="contain">
+					<h3 class="title">{{item.title}}</h3>
+					<div class="row">
+						<div class="col-xs-8 col-sm-5">
+							<span class="author">{{item.author}}</span>
+							<span class="category">{{item.category}}</span>
+							<a href={{item.link}}>
+								<p class="content">{{item.contentSnippet}}</p>
+							</a>
+						</div>
+						<div class="col-xs-4 col-sm-3 right">
+							<span class="date">{{item.publishedDate}}</span>
+							<div ng-style="{'background': 'url(' + item.imgSrc + ') center'}" class="pic"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="loading" ng-show="busy">
+				加载中 ...
+			</div>
+		</div>
+		<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/angular.js/1.5.11/angular.min.js"></script>
+		<script src="app.js"></script>
+	</body>
+
+</html>
