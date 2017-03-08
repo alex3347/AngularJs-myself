@@ -1,7 +1,6 @@
 var app = angular.module("36krDemoApp", []);
 var n = 2; //翻页的计数器
 app.controller("ajaxXml", function($scope, $http, $timeout) {
-	$jq = $;
 	$scope.LoadXml = function() {
 		$http.jsonp("http://localhost:8080/rssread.php?callback=JSON_CALLBACK") 
 			.success(function(data) {
@@ -23,8 +22,8 @@ app.controller("ajaxXml", function($scope, $http, $timeout) {
 							var mon = engToNum[$4];
 							return mon + ' 月 ' + $3 + ' 日 ' + $6;
 						}),
-						contentSnippet: $jq(feedItem.description).text().substring(0, 54) + '......',
-						imgSrc: $jq(feedItem.description).find("img")[0] == undefined ? 'temp.jpg' : $jq(feedItem.description).find("img")[0].src.split('!')[0], //有些item里没有图片地址，这里我自己加了个本地地址
+						contentSnippet: angular.element(feedItem.description).text().substring(0, 54) + '......',
+						imgSrc: angular.element(feedItem.description).find("img")[0] == undefined ? 'temp.jpg' : angular.element(feedItem.description).find("img")[0].src.split('!')[0], //有些item里没有图片地址，这里我自己加了个本地地址
 						guid: feedItem.guid
 					});
 				}
@@ -54,7 +53,7 @@ app.controller("ajaxXml", function($scope, $http, $timeout) {
 		}
 	};
 });
-app.directive('infiniteScroll', ['$rootScope', '$window', '$timeout', function($rootScope, $window, $timeout) { //这个是网上找到的比较成熟的方法，缺点是用了jquery，时间有限，后面我会试着用原生方法自己实现
+app.directive('infiniteScroll', ['$rootScope', '$window', '$timeout', function($rootScope, $window, $timeout) { 
 	return {
 		link: function(scope, elem, attrs) {
 			var checkWhenEnabled, handler, scrollDistance, scrollEnabled;
