@@ -14,17 +14,17 @@
 		<div ng-controller="ajaxXml" infinite-scroll="" infinite-scroll-distance="1">
 			<div ng-init="LoadXml()">
 				<div ng-repeat="item in feeds | limitTo:showNum" class="contain">
-					<h3 class="title">{{item.title}}</h3>
+					<h3 class="title" ng-bind="item.title"></h3>
 					<div class="row">
 						<div class="col-xs-8 col-sm-5">
-							<span class="author">{{item.author}}</span>
-							<span class="category">{{item.category}}</span>
+							<span class="author" ng-bind="item.author"></span>
+							<span class="category" ng-bind="item.category"></span>
 							<a href={{item.guid}}>
-								<p class="content">{{item.contentSnippet}}</p>
+								<p class="content" ng-bind="item.contentSnippet"></p>
 							</a>
 						</div>
 						<div class="col-xs-4 col-sm-3 right">
-							<span class="date">{{item.publishedDate}}</span>
+							<span class="date" ng-bind="item.publishedDate"></span>
 							<div ng-style="{'background': 'url(' + item.imgSrc + ') center'}" class="pic"></div>
 						</div>
 					</div>
