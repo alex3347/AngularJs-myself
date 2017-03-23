@@ -1,0 +1,100 @@
+<!Doctype html>
+<html>
+
+	<head>
+		<title>天天看盘数据爬取</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="shortcut icon" href="favicon.ico">
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			
+			.container {
+				width: 250px;
+				height: 300px;
+				margin: 50px auto 0;
+				padding: 5px;
+				border: 3px solid #000000;
+				border-radius: 3px;
+				background-color: #3A94A5;
+				line-height: 20px;
+			}
+			
+			#date {
+				display: inline-block;
+				width：80px;
+				height: 20px;
+			}
+			
+			#btn {
+				display: inline-block;
+				width：30px;
+				height: 22px;
+				text-align: center;
+			}
+			
+			a:hover,
+			a:visited,
+			a:link,
+			a:active {
+				text-decoration: none;
+			}
+			.wrap a {
+				display: block;
+				width: 80px;
+				padding: 3px;
+				text-align: center;
+				border: 1px solid #0088CC;
+				border-radius: 1px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<input id="date" placeholder="请点击选择日期" onclick="laydate({elem: '#date',format: 'YYYYMMDD',event: 'focus'})" />
+			<input type="button" id="btn" value="爬取数据" />
+			<div class="wrap">
+				
+			</div>
+		</div>
+		<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="laydate.dev.js"></script>
+		<script type="text/javascript">
+			var dateObj = new Date();
+			var year=dateObj.getFullYear();
+			var month=dateObj.getMonth()+1;
+			var day=dateObj.getDate();
+			if (month >= 1 && month <= 9) {
+		        month = "0" + month;
+		    }
+		    if (day >= 0 && day <= 9) {
+		        day = "0" + day;
+		    }
+			var now=""+year+month+day;
+			$("#btn").on("click", function() {
+				$("#btn").text("请等待");
+				$("#btn").attr("disabled", true);
+				var time = $("#date").val();
+				$.ajax({
+					async: false,
+					url: "http://localhost:8080/aistockread.php?time=" + time + "&now=" + now,
+					type: "GET",
+					dataType: 'jsonp',
+					jsonp: "callback",
+					success: function(res) {
+						res == "complete" ? console.log("爬取完成") : null;
+						$(".wrap").append("<a href='http://localhost:8080/" + time + ".doc'>" + time + "</a>")
+						$("#btn").attr("disabled", false);
+						$("#btn").val("继续爬取");
+
+					}
+				});
+			})
+		</script>
+	</body>
+
+</html>
