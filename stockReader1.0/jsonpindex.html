@@ -22,7 +22,11 @@
 				background-color: #3A94A5;
 				line-height: 20px;
 			}
-			
+			.left{
+				display: inline-block;
+				width: 180px;
+				float: left;
+			}
 			#date {
 				display: inline-block;
 				width：80px;
@@ -32,10 +36,14 @@
 			#btn {
 				display: inline-block;
 				width：30px;
-				height: 22px;
+				height: 45px;
 				text-align: center;
+				float: left;
+				
 			}
-			
+			#dateStart{
+				margin-bottom: 2px;
+			}
 			a:hover,
 			a:visited,
 			a:link,
@@ -44,7 +52,7 @@
 			}
 			.wrap a {
 				display: block;
-				width: 80px;
+				/*width: 80px;*/
 				padding: 3px;
 				text-align: center;
 				border: 1px solid #0088CC;
@@ -55,7 +63,10 @@
 
 	<body>
 		<div class="container">
-			<input id="date" placeholder="请点击选择日期" onclick="laydate({elem: '#date',format: 'YYYYMMDD',event: 'focus'})" />
+			<div class="left">
+				<input id="dateStart" placeholder="开始日期(最早20160510)" onclick="laydate({elem: '#dateStart',format: 'YYYYMMDD',event: 'focus'})" />
+				<input id="dateEnd" placeholder="结束日期(不选即为单日)" onclick="laydate({elem: '#dateEnd',format: 'YYYYMMDD',event: 'focus'})" />
+			</div>
 			<input type="button" id="btn" value="爬取数据" />
 			<div class="wrap">
 				
@@ -78,21 +89,51 @@
 			$("#btn").on("click", function() {
 				$("#btn").text("请等待");
 				$("#btn").attr("disabled", true);
-				var time = $("#date").val();
-				$.ajax({
-					async: false,
-					url: "http://localhost:8080/aistockread.php?time=" + time + "&now=" + now,
-					type: "GET",
-					dataType: 'jsonp',
-					jsonp: "callback",
-					success: function(res) {
-						res == "complete" ? console.log("爬取完成") : null;
-						$(".wrap").append("<a href='http://localhost:8080/" + time + ".doc'>" + time + "</a>")
-						$("#btn").attr("disabled", false);
-						$("#btn").val("继续爬取");
-
-					}
-				});
+				var timestart = $("#dateStart").val();
+				var timeend = $("#dateEnd").val();
+				if(timestart == 0){
+					alert("开始日期不能为空，请重新选择");
+					$("#btn").attr("disabled", false);
+					$("#btn").val("爬取数据");
+				}else if(parseInt(timestart) < 20160510){
+					alert("天天看盘20160510诞生，请选择之后的时间");
+					$("#btn").attr("disabled", false);
+					$("#btn").val("爬取数据");
+				}else if(timeend == 0){
+					$.ajax({
+						async: false,
+						url: "http://localhost:8080/aistockread.php?timestart=" + timestart + "&timeend=" + timeend + "&now=" + now,
+						type: "GET",
+						dataType: 'jsonp',
+						jsonp: "callback",
+						success: function(res) {
+							res == "complete" ? console.log("爬取完成") : null;
+							$(".wrap").append("<a href='http://localhost:8080/" + timestart + ".doc'>" + timestart + "</a>")
+							$("#btn").attr("disabled", false);
+							$("#btn").val("继续爬取");
+	
+						}
+					});
+				}else if(timestart <= timeend){
+					$.ajax({
+						async: false,
+						url: "http://localhost:8080/aistockread.php?timestart=" + timestart + "&timeend=" + timeend + "&now=" + now,
+						type: "GET",
+						dataType: 'jsonp',
+						jsonp: "callback",
+						success: function(res) {
+							res == "complete" ? console.log("爬取完成") : null;
+							$(".wrap").append("<a href='http://localhost:8080/ZIP'>" + timestart + "~" + timeend + "</a>")
+							$("#btn").attr("disabled", false);
+							$("#btn").val("继续爬取");
+	
+						}
+					});
+				}else{
+					alert("结束日期应大于等于开始日期，请重新选择");
+					$("#btn").attr("disabled", false);
+					$("#btn").val("爬取数据");
+				}
 			})
 		</script>
 	</body>
